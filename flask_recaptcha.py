@@ -58,16 +58,16 @@ class ReCaptcha(object):
         def get_code():
             return dict(recaptcha=Markup(self.get_code()))
 
-    def get_code(self):
+    def get_code(self, language_code='en'):
         """
         Returns the new ReCaptcha code
         :return:
         """
         return "" if not self.is_enabled else ("""
-        <script src='//www.google.com/recaptcha/api.js'></script>
+        <script src='//www.google.com/recaptcha/api.js?hl={LANGUAGE_CODE}'></script>
         <div class="g-recaptcha" data-sitekey="{SITE_KEY}" data-theme="{THEME}" data-type="{TYPE}" data-size="{SIZE}"\
          data-tabindex="{TABINDEX}"></div>
-        """.format(SITE_KEY=self.site_key, THEME=self.theme, TYPE=self.type, SIZE=self.size, TABINDEX=self.tabindex))
+        """.format(LANGUAGE_CODE=language_code, SITE_KEY=self.site_key, THEME=self.theme, TYPE=self.type, SIZE=self.size, TABINDEX=self.tabindex))
 
     def verify(self, response=None, remote_ip=None):
         if self.is_enabled:
